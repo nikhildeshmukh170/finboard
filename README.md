@@ -1,36 +1,167 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FinBoard - Finance Dashboard
+
+A customizable finance dashboard built with Next.js that allows users to connect to various financial APIs and display real-time data through customizable widgets.
+
+## Features
+
+### 🎯 Core Features
+- **Widget Management System**: Add, remove, and configure finance data widgets
+- **API Integration**: Connect to any financial API with dynamic data mapping
+- **Real-time Updates**: Automatic data refresh with configurable intervals
+- **Drag & Drop**: Reorganize widgets with intuitive drag-and-drop functionality
+- **Data Persistence**: All configurations persist across browser sessions
+
+### 📊 Widget Types
+- **Card Widgets**: Display key metrics in a clean card format
+- **Table Widgets**: Show data in paginated tables with search functionality
+- **Chart Widgets**: Visualize data with line and bar charts
+
+### 🎨 User Experience
+- **Dark/Light Theme**: Toggle between themes seamlessly
+- **Responsive Design**: Works on all screen sizes
+- **Error Handling**: Comprehensive error states and user feedback
+- **Loading States**: Smooth loading indicators throughout the app
+
+### 🔧 Technical Features
+- **State Management**: Zustand for efficient state management
+- **Data Caching**: Intelligent API response caching
+- **Rate Limiting**: Graceful handling of API rate limits
+- **Type Safety**: Full TypeScript support
+
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Charts**: Chart.js with react-chartjs-2
+- **Drag & Drop**: @dnd-kit
+- **Forms**: React Hook Form with Zod validation
+- **Icons**: Lucide React
+- **TypeScript**: Full type safety
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd finboard
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+### Adding a Widget
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Click the **"+ Add Widget"** button
+2. Enter a widget name (e.g., "Bitcoin Price Tracker")
+3. Provide an API URL (e.g., `https://api.coinbase.com/v2/exchange-rates?currency=BTC`)
+4. Click **"Test"** to validate the API connection
+5. Select fields to display from the API response
+6. Choose display mode (Card, Table, or Chart)
+7. Set refresh interval (minimum 5 seconds)
+8. Click **"Add Widget"**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Widget Management
 
-## Deploy on Vercel
+- **Refresh**: Click the refresh icon to manually update data
+- **Configure**: Click the settings icon to modify widget settings
+- **Delete**: Click the trash icon to remove the widget
+- **Reorder**: Drag and drop widgets to rearrange them
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Supported APIs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The dashboard works with any JSON API that returns financial data. Some popular examples:
+
+- **Coinbase API**: `https://api.coinbase.com/v2/exchange-rates?currency=BTC`
+- **Alpha Vantage**: `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=YOUR_API_KEY`
+- **Finnhub**: `https://finnhub.io/api/v1/quote?symbol=AAPL&token=YOUR_API_KEY`
+
+## Project Structure
+
+```
+src/
+├── app/                 # Next.js app directory
+├── components/          # React components
+│   ├── ui/             # Reusable UI components
+│   └── widgets/        # Widget-specific components
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+├── services/           # API services
+├── stores/             # Zustand stores
+└── types/              # TypeScript type definitions
+```
+
+## API Integration
+
+### Adding New APIs
+
+1. **Test the API**: Use the "Test" button in the widget creation modal
+2. **Select Fields**: Choose which data fields to display
+3. **Configure Display**: Set up how the data should be presented
+4. **Set Refresh Rate**: Configure how often to update the data
+
+### API Requirements
+
+- Must return JSON data
+- Should be accessible via CORS or use a proxy
+- Rate limits are handled automatically with caching
+
+## Customization
+
+### Themes
+The dashboard supports both light and dark themes. Toggle between them using the theme switcher in the header.
+
+### Widget Configuration
+Each widget can be customized with:
+- Custom refresh intervals
+- Field selection and formatting
+- Display mode (Card, Table, Chart)
+- Search and pagination settings
+
+## Performance
+
+- **Caching**: API responses are cached for 5 minutes to reduce requests
+- **Lazy Loading**: Components are loaded on demand
+- **Optimized Rendering**: Efficient re-rendering with React best practices
+
+## Error Handling
+
+The application includes comprehensive error handling:
+- API connection failures
+- Rate limit exceeded
+- Invalid data formats
+- Network timeouts
+- User-friendly error messages
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Support
+
+For support or questions, please open an issue in the repository.
