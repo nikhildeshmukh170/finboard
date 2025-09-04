@@ -16,6 +16,8 @@ export interface Widget {
   lastUpdated: Date;
   isLoading: boolean;
   error?: string;
+
+  refreshInterval: number;
 }
 
 
