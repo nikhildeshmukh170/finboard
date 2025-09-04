@@ -1,5 +1,7 @@
 "use client";
 import React, { useMemo } from "react";
+import "@/lib/chartConfig";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,10 +12,12 @@ import {
   Title,
   Tooltip,
   Legend,
+  LineController,
+  BarController,
   type ChartData,
   type ChartOptions,
 } from "chart.js";
-import { Chart as ReactChart } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import { Widget } from "@/types";
 import {
   Card,
@@ -26,7 +30,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { RefreshCw, Settings, Trash2, TrendingUp } from "lucide-react";
 import { cn, getNestedValue, formatLastUpdated } from "@/lib/utils";
 
-// Register Chart.js components
+// ✅ Register Chart.js components including controllers
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -35,7 +39,9 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  LineController,
+  BarController
 );
 
 type MyChartType = "bar" | "line";
@@ -62,7 +68,6 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
     }
 
     let labels: string[] = [];
-    // We'll shape datasets to be compatible with both line & bar.
     const datasetsBase: Array<{
       label: string;
       data: number[];
@@ -119,7 +124,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
           if (typeof techData === "object" && techData !== null) {
             dataArray = Object.entries(techData).map(([date, values]) => ({
               date,
-              ...(values as Record<string, unknown>), // ✅ ensure spread is an object
+              ...(values as Record<string, unknown>),
             }));
           }
         }
@@ -133,7 +138,6 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
             arrayField.path
           ) as Record<string, unknown>[];
         } else {
-          // Recursive search for arrays
           const findArrayInObject = (
             obj: Record<string, unknown>
           ): Record<string, unknown>[] | null => {
@@ -230,14 +234,12 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
 
     const result: ChartData<MyChartType> = {
       labels,
-      // Casting here is fine because our dataset shape is compatible with both line & bar.
       datasets: datasetsBase as ChartData<MyChartType>["datasets"],
     };
 
     return result;
   }, [widget.data, widget.selectedFields]);
 
-  // Options typed for both 'bar' and 'line'
   const chartOptions: ChartOptions<MyChartType> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -246,7 +248,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
         position: "top",
         labels: {
           color: "rgb(107, 114, 128)",
-          font: { size: 10, weight: 500 },
+          font: { size: 10, weight: "bold" },
           boxWidth: 12,
           padding: 8,
         },
@@ -299,13 +301,16 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       );
     }
 
-    // Pick the chart type explicitly (keeps types happy)
-    const type: MyChartType =
+    const chartType: MyChartType =
       widget.config.chartType === "bar" ? "bar" : "line";
 
     return (
       <div className="h-64 w-full overflow-hidden">
-        <ReactChart type={type} data={chartData} options={chartOptions} />
+        {chartType === "bar" ? (
+          <Bar data={chartData!} options={chartOptions} />
+        ) : (
+          <Line data={chartData!} options={chartOptions} />
+        )}
       </div>
     );
   };
