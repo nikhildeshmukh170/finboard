@@ -246,7 +246,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
         position: "top",
         labels: {
           color: "rgb(107, 114, 128)",
-          font: { size: 10, weight: "500" },
+          font: { size: 10, weight: 500 },
           boxWidth: 12,
           padding: 8,
         },
