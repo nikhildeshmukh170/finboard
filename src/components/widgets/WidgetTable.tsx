@@ -70,7 +70,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
         dataArray = getNestedValue(widget.data, arrayField.path);
       } else {
         // If no array field is selected, try to find any array in the data
-        const findArrayInObject = (obj: any, path = ''): any[] | null => {
+        function findArrayInObject(obj: Record<string, unknown>, path = ''): unknown[] | null {
           if (Array.isArray(obj)) return obj;
           if (typeof obj === 'object' && obj !== null) {
             for (const [key, value] of Object.entries(obj)) {
@@ -79,12 +79,12 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
                 console.log('📋 Found array at path:', newPath);
                 return value;
               }
-              const result = findArrayInObject(value, newPath);
+              const result = findArrayInObject(value as Record<string, unknown>, newPath);
               if (result) return result;
             }
           }
           return null;
-        };
+        }
         
         dataArray = findArrayInObject(widget.data);
         if (dataArray) {
@@ -103,7 +103,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
     
     // Filter data based on search term
     if (searchTerm) {
-      return dataArray.filter((item: any) => {
+  return dataArray.filter((item: Record<string, unknown>) => {
         return widget.selectedFields.some(field => {
           const value = getNestedValue(item, field.path);
           return String(value).toLowerCase().includes(searchTerm.toLowerCase());
@@ -226,7 +226,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
                </tr>
              </thead>
              <tbody>
-               {paginatedData.map((item: any, rowIndex: number) => (
+               {paginatedData.map((item: Record<string, unknown>, rowIndex: number) => (
                  <tr
                    key={rowIndex}
                    className="border-b hover:bg-[var(--muted)]"
