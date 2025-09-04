@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -32,6 +32,7 @@ import {
   Download,
   Upload,
   Layout,
+  Menu,
 } from "lucide-react";
 import { clearDashboardStorage } from "@/lib/clearStorage";
 import {
@@ -53,6 +54,20 @@ const DashboardContent: React.FC = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
   const { addToast } = useToast();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
 
   const {
     widgets,
@@ -427,167 +442,73 @@ const DashboardContent: React.FC = () => {
     >
       {/* Header */}
       <header
-        className="sticky top-0 z-20 shadow-sm"
-        style={{
-          background: "var(--card)",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3 justify-between">
-              {/* <div className="bg-gradient-to-r from-green-500 to-blue-600 p-2 rounded-xl shadow"> */}
-              {/* <BarChart3 className="h-8 w-8 text-white" /> */}
-              <svg
-                width="320"
-                height="50"
-                viewBox="0 0 620 90"
-                xmlns="http://www.w3.org/2000/svg"
+      className="sticky top-0 z-20 shadow-sm"
+      style={{
+        background: "var(--card)",
+        borderBottom: "1px solid var(--border)",
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Left: Logo + Active text */}
+          <div className="flex items-center gap-4">
+            {/* Logo */}
+            <svg
+              width="200"
+              height="90"
+              viewBox="0 0 300 90"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="320" height="90" rx="12" fill="var(--card)" />
+              <rect x="35" y="30" width="10" height="30" rx="2" fill="var(--success)" />
+              <line x1="40" y1="20" x2="40" y2="30" stroke="var(--success)" strokeWidth="3" strokeLinecap="round" />
+              <line x1="40" y1="60" x2="40" y2="70" stroke="var(--success)" strokeWidth="3" strokeLinecap="round" />
+              <rect x="55" y="20" width="10" height="40" rx="2" fill="var(--foreground)" />
+              <line x1="60" y1="10" x2="60" y2="20" stroke="var(--foreground)" strokeWidth="3" strokeLinecap="round" />
+              <line x1="60" y1="60" x2="60" y2="75" stroke="var(--foreground)" strokeWidth="3" strokeLinecap="round" />
+              <rect x="75" y="25" width="10" height="35" rx="2" fill="var(--success)" />
+              <line x1="80" y1="15" x2="80" y2="25" stroke="var(--success)" strokeWidth="3" strokeLinecap="round" />
+              <line x1="80" y1="60" x2="80" y2="70" stroke="var(--success)" strokeWidth="3" strokeLinecap="round" />
+              <text
+                x="120"
+                y="55"
+                fontFamily="Inter, sans-serif"
+                fontSize="32"
+                fontWeight="700"
+                fill="var(--foreground)"
               >
-                {/* Background */}
-                <rect
-                  width="320"
-                  height="90"
-                  rx="12"
-                  fill="var(--card)"
-                />
+                FinBoard
+              </text>
+            </svg>
 
-                {/* Green candlestick */}
-                <rect
-                  x="35"
-                  y="30"
-                  width="10"
-                  height="30"
-                  rx="2"
-                  fill="var(--success)"
-                />
-                <line
-                  x1="40"
-                  y1="20"
-                  x2="40"
-                  y2="30"
-                  stroke="var(--success)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-                <line
-                  x1="40"
-                  y1="60"
-                  x2="40"
-                  y2="70"
-                  stroke="var(--success)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-
-                {/* White candlestick (theme-based) */}
-                <rect
-                  x="55"
-                  y="20"
-                  width="10"
-                  height="40"
-                  rx="2"
-                  fill="var(--foreground)"
-                />
-                <line
-                  x1="60"
-                  y1="10"
-                  x2="60"
-                  y2="20"
-                  stroke="var(--foreground)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-                <line
-                  x1="60"
-                  y1="60"
-                  x2="60"
-                  y2="75"
-                  stroke="var(--foreground)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-
-                {/* Green candlestick */}
-                <rect
-                  x="75"
-                  y="25"
-                  width="10"
-                  height="35"
-                  rx="2"
-                  fill="var(--success)"
-                />
-                <line
-                  x1="80"
-                  y1="15"
-                  x2="80"
-                  y2="25"
-                  stroke="var(--success)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-                <line
-                  x1="80"
-                  y1="60"
-                  x2="80"
-                  y2="70"
-                  stroke="var(--success)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-
-                {/* Text */}
-                <text
-                  x="120"
-                  y="55"
-                  fontFamily="Inter, sans-serif"
-                  fontSize="36"
-                  fontWeight="700"
-                  fill="var(--foreground)"
-                >
-                  FinBoard
-                </text>
-              </svg>
-
-              {/* </div> */}
-              <div>
-                {/* <h1 className="text-3xl font-extrabold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent tracking-tight">
-                  FinBoard
-                </h1> */}
-                {/* <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Build your custom finance dashboard with real-time data
-                </p> */}
-              </div>
+            {/* Active widgets text (always visible) */}
+            <div
+              className="text-[10px] md:text-sm font-medium"
+              style={{ color: "var(--muted-foreground)" }}
+            >
+              {widgets.length} active widget{widgets.length !== 1 ? "s" : ""} • Real-time data
             </div>
+          </div>
 
-            <div className="flex items-center gap-4">
-              <div
-                className="text-sm font-medium"
-                style={{ color: "var(--muted-foreground)" }}
-              >
-                {widgets.length} active widget{widgets.length !== 1 ? "s" : ""}{" "}
-                • Real-time data
-              </div>
-
+          {/* Right side */}
+          <div className="flex items-center gap-4">
+            {/* Desktop actions */}
+            <div className="hidden md:flex items-center gap-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
                 title="Toggle theme"
               >
-                {theme === "dark" ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
-                )}
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
 
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleExportDashboard}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
                 title="Export dashboard"
               >
                 <Download className="h-4 w-4" />
@@ -597,7 +518,7 @@ const DashboardContent: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={handleImportDashboard}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
                 title="Import dashboard"
               >
                 <Upload className="h-4 w-4" />
@@ -607,7 +528,7 @@ const DashboardContent: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsTemplateModalOpen(true)}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
                 title="Load template"
               >
                 <Layout className="h-4 w-4" />
@@ -618,7 +539,7 @@ const DashboardContent: React.FC = () => {
                 size="sm"
                 onClick={handleClearStorage}
                 className="h-8 w-8 p-0 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-                title="Clear storage (if having issues)"
+                title="Clear storage"
               >
                 <RotateCcw className="h-4 w-4" />
               </Button>
@@ -631,9 +552,82 @@ const DashboardContent: React.FC = () => {
                 Add Widget
               </Button>
             </div>
+
+            {/* Mobile actions */}
+            <div className="flex md:hidden items-center gap-2" ref={menuRef}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="h-8 w-8 p-0 text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
+                title="Toggle theme"
+              >
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+
+              <Button
+                onClick={() => setIsAddModalOpen(true)}
+                className="bg-green-600 hover:bg-green-700 text-white h-8 w-8 p-0 flex items-center justify-center"
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+
+              {/* Mobile menu */}
+              <div className="relative">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+
+                {isMenuOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-56 rounded-lg shadow-lg p-2 z-30"
+                    style={{ background: "var(--card)", border: "1px solid var(--border)" }}
+                  >
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
+                      onClick={handleExportDashboard}
+                    >
+                      <Download className="h-4 w-4 mr-2" /> Export
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
+                      onClick={handleImportDashboard}
+                    >
+                      <Upload className="h-4 w-4 mr-2" /> Import
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-gray-900 hover:text-gray-300 dark:text-white-100 dark:hover:text-white-100"
+                      onClick={() => setIsTemplateModalOpen(true)}
+                    >
+                      <Layout className="h-4 w-4 mr-2" /> Template
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-red-600 dark:text-red-400 hover:bg-[var(--muted)] hover:text-red-500 dark:hover:text-red-300"
+                      onClick={handleClearStorage}
+                    >
+                      <RotateCcw className="h-4 w-4 mr-2" /> Clear Storage
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </header>
+      </div>
+    </header>
+
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
