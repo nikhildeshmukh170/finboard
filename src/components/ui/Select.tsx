@@ -28,7 +28,7 @@ interface SelectItemProps
   value: string;
   children: React.ReactNode;
   className?: string;
-  onSelect?: () => void;
+  onSelect?: () => void; // ✅ explicitly part of props
 }
 
 interface SelectValueProps
@@ -92,12 +92,11 @@ export const Select: React.FC<SelectProps> = ({
         <SelectContent ref={contentRef}>
           {React.Children.map(children, (child) => {
             if (
-              React.isValidElement(child) &&
+              React.isValidElement<SelectItemProps>(child) &&
               child.type === SelectItem
             ) {
               return React.cloneElement(child, {
-                onSelect: () =>
-                  handleSelect(child.props.value),
+                onSelect: () => handleSelect(child.props.value),
               });
             }
             return child;
