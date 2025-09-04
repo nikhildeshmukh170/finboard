@@ -30,32 +30,41 @@ A customizable finance dashboard built with Next.js that allows users to connect
 
 ### ScreenShot
 
-- **Flow Charts**
-<img width="3840" height="3404" alt="Untitled diagram _ Mermaid Chart-2025-09-04-155016" src="https://github.com/user-attachments/assets/95274225-2a2e-4056-8ee4-6cdb31b581ca" />
+**#Flow Charts**
+
+- **Class Diagram**
+<img width="500" height="500" alt="Untitled diagram _ Mermaid Chart-2025-09-04-155002" src="https://github.com/user-attachments/assets/309665be-1119-42fd-bf0a-40a234211d52" />
+
+- **UML Activity Diagram**
+<img width="3151" height="1000" alt="Untitled diagram _ Mermaid Chart-2025-09-04-215821" src="https://github.com/user-attachments/assets/f1f2950d-8fd4-4d9e-8dea-fe192738ab7d" />
+
+- **Sequence Diagram**
+<img width="3840" height="1000" alt="Untitled diagram _ Mermaid Chart-2025-09-04-220204" src="https://github.com/user-attachments/assets/077e6f58-8a5e-4345-a3b0-4a7c06beae74" />
+
+## UI
+### Dark Theme
+
+- **Dashboard**
+<img width="1762" height="926" alt="image" src="https://github.com/user-attachments/assets/23f8133a-d030-4b89-8e48-d126a01c2209" />
+
+- **Add New Widget**
+<img width="1709" height="890" alt="image" src="https://github.com/user-attachments/assets/c1a88000-78da-439e-a6de-e3a1494c9b23" />
+<img width="1639" height="845" alt="image" src="https://github.com/user-attachments/assets/00b0638f-993e-404c-945e-824f7dca1538" />
+
+- **Card Open Model**
+<img width="1640" height="912" alt="image" src="https://github.com/user-attachments/assets/fcc89125-e0e1-4313-88b8-c77aee05b0b4" />
+
+- **Mobile View**
+<img width="488" height="829" alt="image" src="https://github.com/user-attachments/assets/53fa7323-de3c-4d52-8d8d-44b633363f21" />
 
 
-<img width="3840" height="3637" alt="Untitled diagram _ Mermaid Chart-2025-09-04-155002" src="https://github.com/user-attachments/assets/309665be-1119-42fd-bf0a-40a234211d52" />
 
-
-<img width="3072" height="3840" alt="Untitled diagram _ Mermaid Chart-2025-09-04-154926" src="https://github.com/user-attachments/assets/eef7d081-7c9e-42d5-a86b-fb21df8c42ed" />
-
-
-<img width="3840" height="1625" alt="Untitled diagram _ Mermaid Chart-2025-09-04-154908" src="https://github.com/user-attachments/assets/44d3e108-c59f-49f5-9159-1eae0d69696b" />
-
-- **UI**
-### -Dark Theme
-
-<img width="1806" height="926" alt="image" src="https://github.com/user-attachments/assets/ab93a4cc-41e2-4ab2-8f0d-d3de5b57ebbc" />
-
-<img width="1500" height="728" alt="image" src="https://github.com/user-attachments/assets/23063038-aacd-497d-b024-cca6105cbe07" />
-
-<img width="1655" height="896" alt="image" src="https://github.com/user-attachments/assets/c29a141a-1963-4bc2-b7e0-064b81acbfda" />
-
-<br/>
+<hr/>
 
 ### -Light Theme
 
-<img width="1770" height="928" alt="image" src="https://github.com/user-attachments/assets/78b4c2ef-5354-4e01-8119-62991c014977" />
+- **Dashboard**
+<img width="1736" height="929" alt="image" src="https://github.com/user-attachments/assets/51e1fc24-b62b-42a5-a4e6-1ab6b2ab52f7" />
 
 
 
