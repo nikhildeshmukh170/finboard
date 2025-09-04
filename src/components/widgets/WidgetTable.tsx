@@ -269,7 +269,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
 
   return (
     <Card 
-      className="h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] cursor-pointer group"
+      className="h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] cursor-pointer group "
       onClick={() => onClick?.(widget)}
     >
       <CardHeader className="pb-3">

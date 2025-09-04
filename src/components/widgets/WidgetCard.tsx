@@ -76,18 +76,21 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
       );
     }
 
-         return (
-       <div className="space-y-2 max-h-48 overflow-y-auto overflow-x-hidden">
-         {widget.selectedFields.map((field, index) => {
+    return (
+      <div className="space-y-2 max-h-48 overflow-y-auto overflow-x-hidden">
+        {widget.selectedFields.map((field, index) => {
           const value = getNestedValue(widget.data, field.path);
           const formattedValue = formatValue(value, field.format);
-          
           return (
-            <div key={index} className="flex justify-between items-center p-2 rounded-md bg-gray-50 dark:bg-gray-700/50">
-              <span className="text-xs font-medium text-gray-600 dark:text-gray-400 capitalize flex-1 mr-2 truncate">
+            <div
+              key={index}
+              className="flex justify-between items-center px-3 py-2 rounded-lg"
+              style={{ background: 'var(--muted)', color: 'var(--foreground)', minHeight: 36 }}
+            >
+              <span className="text-xs font-medium flex-1 mr-2 truncate" style={{ color: 'var(--muted-foreground)' }}>
                 {field.label.replace(/[._]/g, ' ')}
               </span>
-              <span className="text-xs font-semibold text-gray-900 dark:text-white text-right flex-1 truncate" title={String(formattedValue)}>
+              <span className="text-xs font-semibold text-right flex-1 truncate" style={{ color: 'var(--foreground)' }} title={String(formattedValue)}>
                 {formattedValue}
               </span>
             </div>
@@ -98,20 +101,21 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
   };
 
   return (
-    <Card 
-      className="h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02] cursor-pointer group"
+    <Card
+      className="h-full transition-all duration-200 hover:shadow-xl hover:scale-[1.025] cursor-pointer group border-0 shadow-md bg-[var(--card)] text-[var(--card-foreground)] rounded-2xl p-1"
+      style={{ boxShadow: '0 4px 24px 0 rgba(16,30,54,0.08)' }}
       onClick={() => onClick?.(widget)}
     >
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-3 rounded-t-2xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-green-600 dark:text-green-400" />
-            <CardTitle className="text-lg text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+            <BarChart3 className="h-5 w-5 text-green-500 dark:text-green-400" />
+            <CardTitle className="text-xl font-bold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" style={{ letterSpacing: 0.2 }}>
               {widget.name}
             </CardTitle>
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+            <span className="text-xs font-semibold" style={{ background: 'var(--muted)', color: 'var(--muted-foreground)', borderRadius: 8, padding: '2px 10px' }}>
               {widget.refreshInterval}s
             </span>
                          <Button
@@ -123,7 +127,7 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
                  onRefresh(widget.id);
                }}
                disabled={widget.isLoading}
-               className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+               className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-full"
                title="Refresh data"
              >
                <RefreshCw className={cn('h-4 w-4 text-blue-600 dark:text-blue-400', widget.isLoading && 'animate-spin')} />
@@ -136,7 +140,7 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
                  e.stopPropagation();
                  onConfigure(widget.id);
                }}
-               className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
+               className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
                title="Configure widget"
              >
                <Settings className="h-4 w-4 text-gray-600 dark:text-gray-400" />
@@ -149,7 +153,7 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
                  e.stopPropagation();
                  onDelete(widget.id);
                }}
-               className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-900/20"
+               className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full"
                title="Delete widget"
              >
                <Trash2 className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -158,14 +162,13 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
         </div>
       </CardHeader>
       
-      <CardContent className="pt-0 flex-1 flex flex-col overflow-hidden">
+      <CardContent className="pt-0 flex-1 flex flex-col overflow-hidden rounded-b-2xl">
         <div className="flex-1 overflow-hidden">
           {renderWidgetContent()}
         </div>
-        
         {widget.lastUpdated && (
-          <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+          <div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--border)' }}>
+            <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
               Last updated: {formatLastUpdated(widget.lastUpdated)}
             </p>
           </div>

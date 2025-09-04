@@ -12,9 +12,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          'rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800',
+          'rounded-lg border shadow-sm',
           className
         )}
+  style={{ background: 'var(--card)' }}
         {...props}
       >
         {children}
@@ -46,7 +47,8 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, CardProps>(
     return (
       <h3
         ref={ref}
-        className={cn('text-lg font-semibold leading-none tracking-tight text-gray-900 dark:text-white', className)}
+        className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+        style={{ color: 'var(--card-foreground)' }}
         {...props}
       >
         {children}
