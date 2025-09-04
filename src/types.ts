@@ -8,18 +8,16 @@ export interface WidgetField {
 export interface Widget {
   id: string;
   name: string;
-  apiUrl?: string;
-  config: {
-    chartType: "line" | "bar";
-    [key: string]: any;
-  };
-  data: Record<string, unknown> | null;
-  selectedFields: WidgetField[];
-  refreshInterval: number;
-  lastUpdated?: string | number | Date;
-  isLoading?: boolean;
-  error?: string | null;
+  apiUrl: string;
+  type: "chart" | "table" | "stat" | "card";
+  position?: { x: number; y: number };
+  size?: { width: number; height: number };
+  data?: unknown;
+  lastUpdated: Date;
+  isLoading: boolean;
+  error?: string;
 }
+
 
 export interface LayoutConfig {
   columns: number;
