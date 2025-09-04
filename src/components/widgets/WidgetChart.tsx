@@ -327,7 +327,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
             <CardTitle className="text-lg">{widget.name}</CardTitle>
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-xs font-semibold px-2 py-1 rounded bg-gray-200 dark:bg-gray-700">
+            <span className="text-xs font-semibold px-2 py-1 rounded" style={{ background: 'var(--muted)', color: 'var(--muted-foreground)', borderRadius: 8, padding: '2px 10px' }}>
               {widget.refreshInterval}s
             </span>
             <Button

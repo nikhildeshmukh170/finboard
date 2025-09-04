@@ -22,6 +22,7 @@
   --input: #e5e7eb;
   --ring: #10b981;
   --radius: 0.75rem;
+  --success: #22c552;
 }
 
 /* Dark mode variables - Deep Blue */
@@ -45,6 +46,7 @@
   --border: #334155;
   --input: #334155;
   --ring: #3b82f6;
+  --success: #22c552;
 }
 
 /* Base styles */
