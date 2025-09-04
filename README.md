@@ -28,6 +28,38 @@ A customizable finance dashboard built with Next.js that allows users to connect
 - **Rate Limiting**: Graceful handling of API rate limits
 - **Type Safety**: Full TypeScript support
 
+### ScreenShot
+
+- **Flow Charts**
+<img width="3840" height="3404" alt="Untitled diagram _ Mermaid Chart-2025-09-04-155016" src="https://github.com/user-attachments/assets/95274225-2a2e-4056-8ee4-6cdb31b581ca" />
+
+
+<img width="3840" height="3637" alt="Untitled diagram _ Mermaid Chart-2025-09-04-155002" src="https://github.com/user-attachments/assets/309665be-1119-42fd-bf0a-40a234211d52" />
+
+
+<img width="3072" height="3840" alt="Untitled diagram _ Mermaid Chart-2025-09-04-154926" src="https://github.com/user-attachments/assets/eef7d081-7c9e-42d5-a86b-fb21df8c42ed" />
+
+
+<img width="3840" height="1625" alt="Untitled diagram _ Mermaid Chart-2025-09-04-154908" src="https://github.com/user-attachments/assets/44d3e108-c59f-49f5-9159-1eae0d69696b" />
+
+- **UI**
+### -Dark Theme
+
+<img width="1806" height="926" alt="image" src="https://github.com/user-attachments/assets/ab93a4cc-41e2-4ab2-8f0d-d3de5b57ebbc" />
+
+<img width="1500" height="728" alt="image" src="https://github.com/user-attachments/assets/23063038-aacd-497d-b024-cca6105cbe07" />
+
+<img width="1655" height="896" alt="image" src="https://github.com/user-attachments/assets/c29a141a-1963-4bc2-b7e0-064b81acbfda" />
+
+<br/>
+
+### -Light Theme
+
+<img width="1770" height="928" alt="image" src="https://github.com/user-attachments/assets/78b4c2ef-5354-4e01-8119-62991c014977" />
+
+
+
+
 ## Tech Stack
 
 - **Framework**: Next.js 15 with App Router
