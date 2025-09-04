@@ -16,14 +16,21 @@ interface SortableWidgetProps {
 const SortableWidget: React.FC<SortableWidgetProps> = (props) => {
   const { setNodeRef, style, attributes, listeners } = useSortableWidget(props.widget);
 
+  // Make the whole card clickable except for drag handle and action buttons
   return (
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      className="cursor-move h-full"
+      className="h-full group relative"
+      onClick={() => props.onClick?.(props.widget)}
     >
+      {/* Drag handle overlay (stop propagation so drag doesn't trigger click) */}
+      <div
+        {...attributes}
+        {...listeners}
+        className="absolute top-2 right-2 z-10 cursor-move"
+        onClick={e => e.stopPropagation()}
+      />
       <WidgetFactory {...props} />
     </div>
   );
