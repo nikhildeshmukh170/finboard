@@ -53,10 +53,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
   onClick,
 }) => {
   const chartData = useMemo(() => {
-    console.log("🔄 WidgetChart - Processing data for widget:", widget.name);
-
     if (!widget.data || !widget.selectedFields.length) {
-      console.log("❌ No data or selected fields");
       return null;
     }
 
@@ -68,16 +65,13 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       borderColor?: string;
     }> = [];
 
-    // Handle forex-style data
+    // Forex-style data
     if (widget.data.rates && typeof widget.data.rates === "object") {
-      console.log("💱 Processing forex-style data");
-
       const selectedNumericFields = widget.selectedFields.filter(
         (field) => field.type === "number" && field.path.startsWith("rates.")
       );
 
       if (selectedNumericFields.length === 0) {
-        console.log("❌ No numeric fields found for forex data");
         return null;
       }
 
@@ -103,18 +97,15 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
         };
       });
     } else {
-      console.log("📊 Processing object-style data");
-      let dataArray: any[] | null = null;
+      // Alpha Vantage / object-style data
+      let dataArray: Record<string, unknown>[] | null = null;
 
-      // Alpha Vantage style data
       if (
         widget.data["Technical Analysis: SMA"] ||
         widget.data["Technical Analysis"] ||
         widget.data["Time Series (Daily)"] ||
         widget.data["Time Series (Intraday)"]
       ) {
-        console.log("📈 Found Alpha Vantage style data");
-
         const techAnalysisKey = Object.keys(widget.data).find(
           (key) =>
             key.includes("Technical Analysis") || key.includes("Time Series")
@@ -125,31 +116,30 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
           if (typeof techData === "object" && techData !== null) {
             dataArray = Object.entries(techData).map(([date, values]) => ({
               date,
-              ...values,
+              ...(values as Record<string, unknown>),
             }));
           }
         }
       } else {
-        console.log("🔍 Searching for array fields...");
-
         const arrayField = widget.selectedFields.find(
           (field) => field.type === "array"
         );
         if (arrayField) {
-          dataArray = getNestedValue(widget.data, arrayField.path);
+          dataArray = getNestedValue(
+            widget.data,
+            arrayField.path
+          ) as Record<string, unknown>[];
         } else {
-          // Recursive search for arrays
           const findArrayInObject = (
             obj: Record<string, unknown>,
             path = ""
-          ): unknown[] | null => {
-            if (Array.isArray(obj)) return obj;
+          ): Record<string, unknown>[] | null => {
+            if (Array.isArray(obj)) return obj as Record<string, unknown>[];
             if (typeof obj === "object" && obj !== null) {
               for (const [key, value] of Object.entries(obj)) {
                 const newPath = path ? `${path}.${key}` : key;
                 if (Array.isArray(value)) {
-                  console.log("📋 Found array at path:", newPath);
-                  return value;
+                  return value as Record<string, unknown>[];
                 }
                 const result = findArrayInObject(
                   value as Record<string, unknown>,
@@ -166,7 +156,6 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       }
 
       if (!Array.isArray(dataArray) || dataArray.length === 0) {
-        console.log("❌ No array data found");
         return null;
       }
 
@@ -174,18 +163,17 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
         (field) => field.type === "number"
       );
       if (numericFields.length === 0) {
-        console.log("❌ No numeric fields found for charting");
         return null;
       }
 
-      labels = dataArray.map((item: Record<string, unknown>, index: number) => {
-        let labelValue: any = null;
-        if (item.date) labelValue = item.date;
-        else if (item.symbol) labelValue = item.symbol;
-        else if (item.name) labelValue = item.name;
-        else if (item.id) labelValue = item.id;
-        else if (item.title) labelValue = item.title;
-        else if (item.pair) labelValue = item.pair;
+      labels = dataArray.map((item, index) => {
+        let labelValue: unknown = null;
+        if ("date" in item) labelValue = item.date;
+        else if ("symbol" in item) labelValue = item.symbol;
+        else if ("name" in item) labelValue = item.name;
+        else if ("id" in item) labelValue = item.id;
+        else if ("title" in item) labelValue = item.title;
+        else if ("pair" in item) labelValue = item.pair;
 
         if (!labelValue) {
           const stringField =
@@ -211,8 +199,8 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       }
 
       datasets = numericFields.map((field, index) => {
-        const data = dataArray.map((item: Record<string, unknown>) => {
-          let value;
+        const data = dataArray.map((item) => {
+          let value: unknown;
           if (field.path.includes(".")) {
             value = getNestedValue(item, field.path);
           } else {
