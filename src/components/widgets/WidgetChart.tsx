@@ -10,8 +10,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  type ChartData,
+  type ChartOptions,
 } from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
+import { Chart as ReactChart } from "react-chartjs-2";
 import { Widget } from "@/types";
 import {
   Card,
@@ -36,6 +38,8 @@ ChartJS.register(
   Legend
 );
 
+type MyChartType = "bar" | "line";
+
 interface WidgetChartProps {
   widget: Widget;
   onRefresh: (id: string) => void;
@@ -52,17 +56,18 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
   onDelete,
   onClick,
 }) => {
-  const chartData = useMemo(() => {
+  const chartData = useMemo<ChartData<MyChartType> | null>(() => {
     if (!widget.data || !widget.selectedFields.length) {
       return null;
     }
 
     let labels: string[] = [];
-    let datasets: Array<{
+    // We'll shape datasets to be compatible with both line & bar.
+    const datasetsBase: Array<{
       label: string;
       data: number[];
-      backgroundColor?: string;
-      borderColor?: string;
+      backgroundColor?: string | string[];
+      borderColor?: string | string[];
     }> = [];
 
     // Forex-style data
@@ -70,31 +75,29 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       const selectedNumericFields = widget.selectedFields.filter(
         (field) => field.type === "number" && field.path.startsWith("rates.")
       );
-
-      if (selectedNumericFields.length === 0) {
-        return null;
-      }
+      if (selectedNumericFields.length === 0) return null;
 
       const currencyNames = selectedNumericFields.map((field) =>
         field.path.replace("rates.", "")
       );
       labels = currencyNames;
 
-      datasets = selectedNumericFields.map((field, index) => {
-        const colors = [
-          "rgb(34, 197, 94)", // green-500
-          "rgb(239, 68, 68)", // red-500
-          "rgb(59, 130, 246)", // blue-500
-          "rgb(168, 85, 247)", // purple-500
-          "rgb(245, 158, 11)", // amber-500
-        ];
+      const colors = [
+        "rgb(34, 197, 94)",
+        "rgb(239, 68, 68)",
+        "rgb(59, 130, 246)",
+        "rgb(168, 85, 247)",
+        "rgb(245, 158, 11)",
+      ];
 
-        return {
+      selectedNumericFields.forEach((field, index) => {
+        const color = colors[index % colors.length];
+        datasetsBase.push({
           label: field.label,
           data: currencyNames.map((currency) => widget.data.rates[currency]),
-          borderColor: colors[index % colors.length],
-          backgroundColor: colors[index % colors.length] + "20",
-        };
+          borderColor: color,
+          backgroundColor: color + "20",
+        });
       });
     } else {
       // Alpha Vantage / object-style data
@@ -116,7 +119,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
           if (typeof techData === "object" && techData !== null) {
             dataArray = Object.entries(techData).map(([date, values]) => ({
               date,
-              ...(values as Record<string, unknown>),
+              ...(values as Record<string, unknown>), // ✅ ensure spread is an object
             }));
           }
         }
@@ -130,22 +133,22 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
             arrayField.path
           ) as Record<string, unknown>[];
         } else {
+          // Recursive search for arrays
           const findArrayInObject = (
-            obj: Record<string, unknown>,
-            path = ""
+            obj: Record<string, unknown>
           ): Record<string, unknown>[] | null => {
             if (Array.isArray(obj)) return obj as Record<string, unknown>[];
             if (typeof obj === "object" && obj !== null) {
-              for (const [key, value] of Object.entries(obj)) {
-                const newPath = path ? `${path}.${key}` : key;
+              for (const [, value] of Object.entries(obj)) {
                 if (Array.isArray(value)) {
                   return value as Record<string, unknown>[];
                 }
-                const result = findArrayInObject(
-                  value as Record<string, unknown>,
-                  newPath
-                );
-                if (result) return result;
+                if (typeof value === "object" && value !== null) {
+                  const result = findArrayInObject(
+                    value as Record<string, unknown>
+                  );
+                  if (result) return result;
+                }
               }
             }
             return null;
@@ -155,16 +158,12 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
         }
       }
 
-      if (!Array.isArray(dataArray) || dataArray.length === 0) {
-        return null;
-      }
+      if (!Array.isArray(dataArray) || dataArray.length === 0) return null;
 
       const numericFields = widget.selectedFields.filter(
         (field) => field.type === "number"
       );
-      if (numericFields.length === 0) {
-        return null;
-      }
+      if (numericFields.length === 0) return null;
 
       labels = dataArray.map((item, index) => {
         let labelValue: unknown = null;
@@ -190,21 +189,29 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
             labelValue = getNestedValue(item, stringField.path);
           }
         }
-
-        return String(labelValue || `Item ${index + 1}`);
+        return String(labelValue ?? `Item ${index + 1}`);
       });
 
       if (!widget.selectedFields.some((field) => field.type === "string")) {
         labels = dataArray.map((_, index) => `Item ${index + 1}`);
       }
 
-      datasets = numericFields.map((field, index) => {
-        const data = dataArray.map((item) => {
+      const colors = [
+        "rgb(34, 197, 94)",
+        "rgb(239, 68, 68)",
+        "rgb(59, 130, 246)",
+        "rgb(168, 85, 247)",
+        "rgb(245, 158, 11)",
+      ];
+
+      numericFields.forEach((field, index) => {
+        const color = colors[index % colors.length];
+        const data = dataArray!.map((item) => {
           let value: unknown;
           if (field.path.includes(".")) {
             value = getNestedValue(item, field.path);
           } else {
-            value = item[field.path];
+            value = (item as Record<string, unknown>)[field.path];
             if (value === undefined) {
               value = getNestedValue(item, field.path);
             }
@@ -212,32 +219,31 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
           return typeof value === "number" ? value : 0;
         });
 
-        const colors = [
-          "rgb(34, 197, 94)",
-          "rgb(239, 68, 68)",
-          "rgb(59, 130, 246)",
-          "rgb(168, 85, 247)",
-          "rgb(245, 158, 11)",
-        ];
-
-        return {
+        datasetsBase.push({
           label: field.label,
           data,
-          borderColor: colors[index % colors.length],
-          backgroundColor: colors[index % colors.length] + "20",
-        };
+          borderColor: color,
+          backgroundColor: color + "20",
+        });
       });
     }
 
-    return { labels, datasets };
-  }, [widget.name, widget.data, widget.selectedFields]);
+    const result: ChartData<MyChartType> = {
+      labels,
+      // Casting here is fine because our dataset shape is compatible with both line & bar.
+      datasets: datasetsBase as ChartData<MyChartType>["datasets"],
+    };
 
-  const chartOptions = {
+    return result;
+  }, [widget.data, widget.selectedFields]);
+
+  // Options typed for both 'bar' and 'line'
+  const chartOptions: ChartOptions<MyChartType> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "top" as const,
+        position: "top",
         labels: {
           color: "rgb(107, 114, 128)",
           font: { size: 10, weight: "500" },
@@ -293,10 +299,13 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       );
     }
 
-    const ChartComponent = widget.config.chartType === "bar" ? Bar : Line;
+    // Pick the chart type explicitly (keeps types happy)
+    const type: MyChartType =
+      widget.config.chartType === "bar" ? "bar" : "line";
+
     return (
       <div className="h-64 w-full overflow-hidden">
-        <ChartComponent data={chartData} options={chartOptions} />
+        <ReactChart type={type} data={chartData} options={chartOptions} />
       </div>
     );
   };
