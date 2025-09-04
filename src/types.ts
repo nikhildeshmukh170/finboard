@@ -1,9 +1,28 @@
 // src/types.ts
+
 export interface WidgetField {
   label: string;
   path: string;
   type: "string" | "number" | "array" | "boolean" | "object";
+  format?: "currency" | "percentage" | "date";
 }
+
+export interface FieldMapping {
+    path: string;
+    label: string;
+  source: string;
+  target: string;
+  type: "string" | "number" | "boolean" | "array" | "object";
+  format?: "currency" | "percentage" | "date" | "number";
+}
+
+export interface ApiField {
+  path: string;
+  label: string;
+  type: "string" | "number" | "boolean" | "array" | "object";
+  format?: "currency" | "percentage" | "date" | "number";
+}
+
 
 export interface Widget {
   id: string;
@@ -16,10 +35,11 @@ export interface Widget {
   lastUpdated: Date;
   isLoading: boolean;
   error?: string;
-
-  refreshInterval: number;
+  refreshInterval: number; // in seconds
+  selectedFields?: WidgetField[];
+  displayMode?: "chart" | "table" | "card";
+  config?: Record<string, unknown>;
 }
-
 
 export interface LayoutConfig {
   columns: number;
