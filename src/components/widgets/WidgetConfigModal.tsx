@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 import { apiService } from '@/services/api';
-import { parseApiFields } from '@/lib/utils';
 import { RefreshCw, Trash2, Plus, X } from 'lucide-react';
 
 interface WidgetConfigModalProps {
@@ -34,36 +33,42 @@ export const WidgetConfigModal: React.FC<WidgetConfigModalProps> = ({
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
 
   useEffect(() => {
-    if (isOpen && widget.apiUrl) {
-      testApiConnection();
-    }
-  }, [isOpen, widget.apiUrl]);
+  if (isOpen && widget.apiUrl) {
+    const testApiConnection = async () => {
+      if (!widget.apiUrl) return;
 
-  const testApiConnection = async () => {
-    if (!apiUrl) return;
-    
-    setIsLoading(true);
-    setTestResult(null);
-    
-    try {
-      const response = await apiService.testApiConnection(apiUrl);
-      setTestResult({
-        success: response.success,
-        message: response.message
-      });
-      
-      if (response.success && response.fields) {
-        setAvailableFields(response.fields);
+      setIsLoading(true);
+      setTestResult(null);
+
+      try {
+        const response = await apiService.testApiConnection(widget.apiUrl);
+        setTestResult({
+          success: response.success,
+          message: response.message,
+        });
+
+        if (response.success && response.fields) {
+          setAvailableFields(response.fields);
+        }
+      } catch (error) {
+        setTestResult({
+          success: false,
+          message:
+            error instanceof Error
+              ? error.message
+              : "Failed to test API connection",
+        });
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setTestResult({
-        success: false,
-        message: error instanceof Error ? error.message : 'Failed to test API connection'
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
+
+    // ✅ call the function
+    testApiConnection();
+  }
+}, [isOpen, widget.apiUrl]);
+
+  
 
   const addField = () => {
     const newField: WidgetField = {

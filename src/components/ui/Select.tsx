@@ -32,7 +32,7 @@ interface SelectValueProps {
   className?: string;
 }
 
-export const Select: React.FC<SelectProps> = ({ value, onValueChange, children, disabled, className }) => {
+export const Select: React.FC<SelectProps> = ({  onValueChange, children, disabled, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -115,7 +115,6 @@ export const SelectContent: React.FC<SelectContentProps> = ({ children, classNam
 );
 
 export const SelectItem: React.FC<SelectItemProps & { onSelect?: () => void }> = ({
-  value,
   children,
   className,
   onSelect

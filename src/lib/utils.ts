@@ -66,7 +66,7 @@ export function isValidUrl(string: string): boolean {
   try {
     new URL(string);
     return true;
-  } catch (_) {
+  } catch {
     return false;
   }
 }
@@ -113,7 +113,7 @@ export function formatLastUpdated(lastUpdated: Date | string | undefined): strin
   try {
     const date = lastUpdated instanceof Date ? lastUpdated : new Date(lastUpdated);
     return date.toLocaleTimeString();
-  } catch (error) {
+  } catch {
     return 'Invalid date';
   }
 }

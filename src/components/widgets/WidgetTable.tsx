@@ -22,7 +22,6 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
   onRefresh,
   onConfigure,
   onDelete,
-  onEdit,
   onClick
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -114,7 +113,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
     }
     
     return dataArray;
-  }, [widget.data, widget.selectedFields, searchTerm]);
+  }, [widget.name, widget.data, widget.selectedFields, searchTerm]);
 
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;

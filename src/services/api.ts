@@ -1,4 +1,4 @@
-import { ApiResponse, ApiField, ApiCacheEntry, ApiError } from '@/types';
+import { ApiResponse, ApiField, ApiCacheEntry } from '@/types';
 
 class ApiService {
   private cache = new Map<string, ApiCacheEntry>();

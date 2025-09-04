@@ -23,12 +23,9 @@ import { useDashboardStore } from "@/stores/dashboard";
 import { Widget } from "@/types";
 import {
   Plus,
-  BarChart3,
   Moon,
   Sun,
   RotateCcw,
-  RefreshCw,
-  Settings,
   Download,
   Upload,
   Layout,
@@ -65,7 +62,6 @@ const DashboardContent: React.FC = () => {
     error,
     setTheme,
     addWidget,
-    updateWidget,
     refreshWidget,
     removeWidget,
     reorderWidgets,

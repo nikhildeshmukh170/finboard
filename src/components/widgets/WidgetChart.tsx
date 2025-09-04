@@ -218,7 +218,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
          
          // If still no label found, try to use the first string value from the item
          if (!labelValue && typeof item === 'object') {
-           for (const [key, value] of Object.entries(item)) {
+           for (const [value] of Object.entries(item)) {
              if (typeof value === 'string' && value.length < 20) { // Avoid very long strings
                labelValue = value;
                break;
@@ -284,7 +284,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       labels,
       datasets,
     };
-  }, [widget.data, widget.selectedFields]);
+  }, [widget.name, widget.data, widget.selectedFields]);
 
   const chartOptions = {
     responsive: true,
