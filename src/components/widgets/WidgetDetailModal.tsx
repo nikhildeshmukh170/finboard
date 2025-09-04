@@ -41,7 +41,7 @@ export const WidgetDetailModal: React.FC<WidgetDetailModalProps> = ({
       onConfigure,
       onDelete,
       onEdit: onConfigure,
-      onClick: undefined as any
+      onClick: undefined as (() => void) | undefined
     };
 
     switch (viewType) {
@@ -125,7 +125,7 @@ export const WidgetDetailModal: React.FC<WidgetDetailModalProps> = ({
           {viewConfigs.map(({ key, label, icon: Icon, description }) => (
             <Button
               key={key}
-              variant={visibleViews[key] ? "default" : "ghost"}
+              variant={visibleViews[key] ? "primary" : "ghost"}
               size="sm"
               onClick={() => toggleView(key)}
               className={cn(

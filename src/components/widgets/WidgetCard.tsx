@@ -23,9 +23,8 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
   onDelete,
   onClick
 }) => {
-  const formatValue = (value: any, format?: string) => {
+  const formatValue = (value: string | number | boolean | null | undefined, format?: string) => {
     if (value === null || value === undefined) return 'N/A';
-    
     switch (format) {
       case 'currency':
         return typeof value === 'number' ? formatCurrency(value) : value;

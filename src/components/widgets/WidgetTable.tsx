@@ -28,9 +28,8 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = widget.config.itemsPerPage || 10;
 
-  const formatValue = (value: any, format?: string) => {
+  const formatValue = (value: string | number | boolean | null | undefined, format?: string) => {
     if (value === null || value === undefined) return 'N/A';
-    
     switch (format) {
       case 'currency':
         return typeof value === 'number' ? formatCurrency(value) : value;

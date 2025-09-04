@@ -61,7 +61,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
 
     // Handle different data structures
     let labels: string[] = [];
-    let datasets: any[] = [];
+  let datasets: Array<{ label: string; data: number[]; backgroundColor?: string; borderColor?: string }> = [];
 
     // Check if we have forex-style data (object with rates)
     if (widget.data.rates && typeof widget.data.rates === 'object') {
@@ -126,7 +126,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
                date,
                ...values
              }));
-             console.log('✅ Converted technical data to array, length:', dataArray.length);
+                      const result = findArrayInObject(value as Record<string, unknown>, newPath);
            }
          }
        } else {
@@ -140,7 +140,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
            dataArray = getNestedValue(widget.data, arrayField.path);
          } else {
            // If no array field is selected, try to find any array in the data
-           const findArrayInObject = (obj: any, path = ''): any[] | null => {
+           const findArrayInObject = (obj: Record<string, unknown>, path = ''): unknown[] | null => {
              if (Array.isArray(obj)) return obj;
              if (typeof obj === 'object' && obj !== null) {
                for (const [key, value] of Object.entries(obj)) {
@@ -152,7 +152,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
                  const result = findArrayInObject(value, newPath);
                  if (result) return result;
                }
-             }
+                      weight: 'bold'
              return null;
            };
            
@@ -187,7 +187,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
        console.log('🔍 Processing array data for labels, first item:', dataArray[0]);
        console.log('🎯 Selected fields:', widget.selectedFields);
        
-       labels = dataArray.map((item: any, index: number) => {
+  labels = dataArray.map((item: Record<string, unknown>, index: number) => {
          // First, try to find a good label field from the actual data structure
          let labelValue = null;
          
@@ -239,7 +239,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
 
              // Create datasets only for numeric fields
        datasets = numericFields.map((field, index) => {
-         const data = dataArray.map((item: any) => {
+         const data = dataArray.map((item: Record<string, unknown>) => {
            // For Alpha Vantage data, the field path might be just the field name
            let value;
            if (field.path.includes('.')) {

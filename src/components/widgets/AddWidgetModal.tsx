@@ -31,7 +31,7 @@ const AddWidgetModal: React.FC<AddWidgetModalProps> = ({ isOpen, onClose }) => {
   const [apiTestResult, setApiTestResult] = useState<{
     success: boolean;
     message: string;
-    fields?: any[];
+    fields?: import('@/types').ApiField[];
   } | null>(null);
   const [selectedFields, setSelectedFields] = useState<FieldMapping[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,21 +61,23 @@ const AddWidgetModal: React.FC<AddWidgetModalProps> = ({ isOpen, onClose }) => {
     
     setApiTestResult(null);
     const result = await testApiConnection(watchedApiUrl);
-    setApiTestResult(result);
-    
+    // Ensure fields is ApiField[]
+    setApiTestResult({
+      ...result,
+      fields: Array.isArray(result.fields) ? result.fields as import('@/types').ApiField[] : []
+    });
     if (result.success && result.fields) {
       setStep('fields');
     }
   };
 
-  const handleFieldSelect = (field: any) => {
+  const handleFieldSelect = (field: import('@/types').ApiField) => {
     const fieldMapping: FieldMapping = {
       path: field.path,
-      label: field.path.split('.').pop() || field.path,
-      type: field.type as any,
+      label: field.path.split('.')?.pop() || field.path,
+      type: field.type as FieldMapping['type'],
       format: field.type === 'number' ? 'number' : undefined
     };
-    
     setSelectedFields(prev => [...prev, fieldMapping]);
   };
 
@@ -83,11 +85,13 @@ const AddWidgetModal: React.FC<AddWidgetModalProps> = ({ isOpen, onClose }) => {
     setSelectedFields(prev => prev.filter(field => field.path !== path));
   };
 
-  const filteredFields = apiTestResult?.fields?.filter(field => {
-    const matchesSearch = field.path.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesArrayFilter = showArraysOnly ? field.isArray : true;
-    return matchesSearch && matchesArrayFilter;
-  }) || [];
+  const filteredFields: import('@/types').ApiField[] = Array.isArray(apiTestResult?.fields)
+    ? apiTestResult!.fields.filter((field: import('@/types').ApiField) => {
+        const matchesSearch = field.path.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesArrayFilter = showArraysOnly ? field.isArray : true;
+        return matchesSearch && matchesArrayFilter;
+      })
+    : [];
 
   const onSubmit = async (data: WidgetFormData) => {
     if (step === 'form') {
@@ -130,7 +134,7 @@ const AddWidgetModal: React.FC<AddWidgetModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Add New Widget" className="max-w-4xl">
+  <Modal isOpen={isOpen} onClose={handleClose} title="Add New Widget">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {step === 'form' ? (
           <>

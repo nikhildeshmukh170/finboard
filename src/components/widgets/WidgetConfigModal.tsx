@@ -28,7 +28,7 @@ export const WidgetConfigModal: React.FC<WidgetConfigModalProps> = ({
   const [apiUrl, setApiUrl] = useState(widget.apiUrl);
   const [refreshInterval, setRefreshInterval] = useState(widget.refreshInterval);
   const [selectedFields, setSelectedFields] = useState<WidgetField[]>(widget.selectedFields);
-  const [availableFields, setAvailableFields] = useState<Array<{ path: string; type: string; sampleValue: any; isArray: boolean }>>([]);
+  const [availableFields, setAvailableFields] = useState<import('@/types').ApiField[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
 
