@@ -20,3 +20,17 @@ export interface Widget {
   isLoading?: boolean;
   error?: string | null;
 }
+
+export interface LayoutConfig {
+  columns: number;
+  gap: number;
+  padding: number;
+}
+
+export interface DashboardState {
+  widgets: Widget[];
+  layout: LayoutConfig;
+  theme: "light" | "dark";
+  isLoading: boolean;
+  error?: string;
+}
