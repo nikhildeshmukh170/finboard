@@ -443,13 +443,13 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />
-            <CardTitle className="text-lg text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+            <TrendingUp className="h-5 w-5 text-green-500 dark:text-green-400" />
+            <CardTitle className="text-lg group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" style={{ color: 'var(--card-foreground)' }}>
               {widget.name}
             </CardTitle>
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+            <span className="text-xs font-semibold" style={{ background: 'var(--muted)', color: 'var(--muted-foreground)', borderRadius: 8, padding: '2px 10px' }}>
               {widget.refreshInterval}s
             </span>
                          <Button
@@ -461,7 +461,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
                  onRefresh(widget.id);
                }}
                disabled={widget.isLoading}
-               className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+               className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-full"
                title="Refresh data"
              >
                <RefreshCw className={cn('h-4 w-4 text-blue-600 dark:text-blue-400', widget.isLoading && 'animate-spin')} />
@@ -474,7 +474,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
                  e.stopPropagation();
                  onConfigure(widget.id);
                }}
-               className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
+               className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
                title="Configure widget"
              >
                <Settings className="h-4 w-4 text-gray-600 dark:text-gray-400" />
@@ -487,7 +487,7 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
                  e.stopPropagation();
                  onDelete(widget.id);
                }}
-               className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-900/20"
+               className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full"
                title="Delete widget"
              >
                <Trash2 className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -502,8 +502,8 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
         </div>
         
         {widget.lastUpdated && (
-          <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+          <div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--border)' }}>
+            <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
               Last updated: {formatLastUpdated(widget.lastUpdated)}
             </p>
           </div>

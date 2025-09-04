@@ -180,13 +180,33 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
       <div className="space-y-4">
         {/* Search */}
         {widget.config.searchEnabled && (
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <div
+            className="relative mb-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+              onClick={(e) => e.stopPropagation()}
+              style={{ zIndex: 2 }}
+            >
+              <Search className="h-4 w-4" style={{ color: 'var(--muted-foreground)' }} />
+            </span>
             <Input
               placeholder="Search table..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              style={{
+                background: 'var(--muted)',
+                color: 'var(--foreground)',
+                border: '1px solid var(--border)',
+                paddingLeft: 36,
+                borderRadius: 8,
+                height: 40,
+                fontSize: 15,
+                fontWeight: 500,
+                boxShadow: 'none',
+              }}
+              onClick={(e) => e.stopPropagation()}
             />
           </div>
         )}
@@ -194,12 +214,13 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
                                    {/* Table */}
           <div className="overflow-y-auto max-h-64 overflow-x-hidden">
             <table className="w-full text-sm">
-             <thead className="sticky top-0 bg-white dark:bg-gray-800 z-10">
-               <tr className="border-b border-gray-200 dark:border-gray-700">
+             <thead className="sticky top-0 z-10" style={{ background: 'var(--card)', color: 'var(--card-foreground)' }}>
+               <tr style={{ borderBottom: '1px solid var(--border)' }}>
                  {widget.selectedFields.map((field, index) => (
                    <th
                      key={index}
-                     className="text-left py-2 px-2 font-medium text-gray-700 dark:text-gray-300 text-xs"
+                     className="text-left py-2 px-2 font-medium text-xs"
+                     style={{ color: 'var(--foreground)' }}
                    >
                      {field.label}
                    </th>
@@ -210,14 +231,16 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
                {paginatedData.map((item: any, rowIndex: number) => (
                  <tr
                    key={rowIndex}
-                   className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                   className="border-b hover:bg-[var(--muted)]"
+                   style={{ borderBottom: '1px solid var(--border)', color: 'var(--foreground)', background: 'var(--card)' }}
                  >
                    {widget.selectedFields.map((field, colIndex) => {
                      const value = getNestedValue(item, field.path);
                      return (
                        <td
                          key={colIndex}
-                         className="py-2 px-2 text-gray-900 dark:text-white text-xs"
+                         className="py-2 px-2 text-xs"
+                         style={{ color: 'var(--foreground)' }}
                          title={String(formatValue(value, field.format))}
                        >
                          <div className="truncate max-w-[100px]">
@@ -235,7 +258,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
         {/* Pagination */}
         {widget.config.paginationEnabled && totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
               Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, tableData.length)} of {tableData.length} items
             </div>
             <div className="flex items-center gap-2">
@@ -248,7 +271,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <span className="text-sm text-gray-700 dark:text-gray-300">
+              <span className="text-sm" style={{ color: 'var(--foreground)' }}>
                 {currentPage} of {totalPages}
               </span>
               <Button
@@ -275,13 +298,13 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Table className="h-5 w-5 text-green-600 dark:text-green-400" />
-            <CardTitle className="text-lg text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+            <Table className="h-5 w-5 text-green-500 dark:text-green-400" />
+            <CardTitle className="text-lg group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" style={{ color: 'var(--card-foreground)' }}>
               {widget.name}
             </CardTitle>
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+            <span className="text-xs font-semibold" style={{ background: 'var(--muted)', color: 'var(--muted-foreground)', borderRadius: 8, padding: '2px 10px' }}>
               {widget.refreshInterval}s
             </span>
                          <Button
@@ -293,7 +316,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
                  onRefresh(widget.id);
                }}
                disabled={widget.isLoading}
-               className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+               className="h-8 w-8 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-full"
                title="Refresh data"
              >
                <RefreshCw className={cn('h-4 w-4 text-blue-600 dark:text-blue-400', widget.isLoading && 'animate-spin')} />
@@ -306,7 +329,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
                  e.stopPropagation();
                  onConfigure(widget.id);
                }}
-               className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
+               className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
                title="Configure widget"
              >
                <Settings className="h-4 w-4 text-gray-600 dark:text-gray-400" />
@@ -319,7 +342,7 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
                  e.stopPropagation();
                  onDelete(widget.id);
                }}
-               className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-900/20"
+               className="h-8 w-8 p-0 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full"
                title="Delete widget"
              >
                <Trash2 className="h-4 w-4 text-red-600 dark:text-red-400" />
@@ -334,8 +357,8 @@ const WidgetTable: React.FC<WidgetTableProps> = ({
         </div>
         
         {widget.lastUpdated && (
-          <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+          <div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--border)' }}>
+            <p className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
               Last updated: {formatLastUpdated(widget.lastUpdated)}
             </p>
           </div>
