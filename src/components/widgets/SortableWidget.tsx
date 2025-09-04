@@ -22,7 +22,7 @@ const SortableWidget: React.FC<SortableWidgetProps> = (props) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="cursor-move"
+      className="cursor-move h-full"
     >
       <WidgetFactory {...props} />
     </div>

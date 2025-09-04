@@ -45,7 +45,6 @@ const WidgetChart: React.FC<WidgetChartProps> = ({
   onRefresh,
   onConfigure,
   onDelete,
-  onEdit,
   onClick
 }) => {
          const chartData = useMemo(() => {

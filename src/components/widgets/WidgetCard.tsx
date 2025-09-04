@@ -21,7 +21,6 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
   onRefresh,
   onConfigure,
   onDelete,
-  onEdit,
   onClick
 }) => {
   const formatValue = (value: any, format?: string) => {

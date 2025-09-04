@@ -336,12 +336,12 @@ const DashboardContent: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--destructive)' }}>
             Error
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+          <p className="mb-4" style={{ color: 'var(--muted-foreground)' }}>{error}</p>
           <Button onClick={clearError}>Try Again</Button>
         </div>
       </div>
@@ -349,17 +349,17 @@ const DashboardContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen" style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <header className="sticky top-0 z-20 shadow-sm" style={{ background: 'var(--card)', borderBottom: '1px solid var(--border)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-r from-green-500 to-blue-600 p-2 rounded-lg">
+              <div className="bg-gradient-to-r from-green-500 to-blue-600 p-2 rounded-xl shadow">
                 <BarChart3 className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-extrabold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent tracking-tight">
                   FinBoard
                 </h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -369,7 +369,7 @@ const DashboardContent: React.FC = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm font-medium" style={{ color: 'var(--muted-foreground)' }}>
                 {widgets.length} active widget{widgets.length !== 1 ? 's' : ''} • Real-time data
               </div>
               
@@ -440,7 +440,7 @@ const DashboardContent: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {isLoading && (
           <div className="flex items-center justify-center py-8">
             <LoadingSpinner size="lg" />
@@ -448,121 +448,134 @@ const DashboardContent: React.FC = () => {
         )}
 
         {widgets.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+          <div className="text-center py-20">
+            <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-8 shadow-lg">
               <BarChart3 className="h-12 w-12 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-4xl font-extrabold mb-4" style={{ color: 'var(--foreground)' }}>
               Build Your Finance Dashboard
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto text-lg">
+            <p className="mb-10 max-w-2xl mx-auto text-lg" style={{ color: 'var(--muted-foreground)' }}>
               Create custom widgets by connecting to any finance API. Track stocks, crypto, forex, or economic indicators - all in real-time.
             </p>
-            
             {/* Feature highlights */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-4xl mx-auto">
-              <div className="text-center p-4">
-                <div className="bg-blue-100 dark:bg-blue-900/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 max-w-4xl mx-auto">
+              <div className="text-center p-6 rounded-xl shadow-sm" style={{ background: 'var(--card)' }}>
+                <div className="bg-blue-100 dark:bg-blue-900/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                   <BarChart3 className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Multiple Widget Types</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Cards, tables, and charts for different data visualization needs</p>
+                <h3 className="font-semibold mb-2" style={{ color: 'var(--foreground)' }}>Multiple Widget Types</h3>
+                <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Cards, tables, and charts for different data visualization needs</p>
               </div>
-              <div className="text-center p-4">
-                <div className="bg-green-100 dark:bg-green-900/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+              <div className="text-center p-6 rounded-xl shadow-sm" style={{ background: 'var(--card)' }}>
+                <div className="bg-green-100 dark:bg-green-900/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                   <RefreshCw className="h-8 w-8 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Real-time Updates</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Configurable refresh intervals to keep your data current</p>
+                <h3 className="font-semibold mb-2" style={{ color: 'var(--foreground)' }}>Real-time Updates</h3>
+                <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Configurable refresh intervals to keep your data current</p>
               </div>
-              <div className="text-center p-4">
-                <div className="bg-purple-100 dark:bg-purple-900/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+              <div className="text-center p-6 rounded-xl shadow-sm" style={{ background: 'var(--card)' }}>
+                <div className="bg-purple-100 dark:bg-purple-900/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                   <Settings className="h-8 w-8 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Easy Configuration</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Click any widget to configure fields, API settings, and more</p>
+                <h3 className="font-semibold mb-2" style={{ color: 'var(--foreground)' }}>Easy Configuration</h3>
+                <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Click any widget to configure fields, API settings, and more</p>
               </div>
             </div>
-            
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-6 justify-center">
               <Button
                 onClick={() => setIsAddModalOpen(true)}
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 rounded-full"
               >
                 <Plus className="h-5 w-5 mr-2" />
                 Add Your First Widget
               </Button>
-                             <Button
-                 onClick={handleAddDemoWidgets}
-                 variant="outline"
-                 className="px-8 py-4 text-lg font-semibold border-2 hover:bg-gray-50 dark:hover:bg-gray-800"
-               >
-                 Try Demo Data (4 widgets)
-               </Button>
+              <Button
+                onClick={handleAddDemoWidgets}
+                variant="outline"
+                className="px-8 py-4 text-lg font-semibold border-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full"
+              >
+                Try Demo Data (4 widgets)
+              </Button>
             </div>
           </div>
         ) : (
                      <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-             <SortableContext items={widgets.map(w => w.id)} strategy={verticalListSortingStrategy}>
-                               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr">
-                  {widgets.map((widget) => (
-                    <div key={widget.id} className="h-full">
-                      <SortableWidget
-                        widget={widget}
-                        onRefresh={handleRefreshWidget}
-                        onConfigure={handleConfigureWidget}
-                        onDelete={handleDeleteWidget}
-                        onEdit={handleEditWidget}
-                        onClick={handleWidgetClick}
-                      />
-                    </div>
-                  ))}
-                 
-                                   {/* Add Widget Placeholder */}
-                  <div
-                    className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-green-500 dark:hover:border-green-400 transition-all duration-200 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 h-full flex flex-col justify-center"
-                    onClick={() => setIsAddModalOpen(true)}
-                  >
-                   <div className="bg-gray-100 dark:bg-gray-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                     <Plus className="h-8 w-8 text-gray-400" />
-                   </div>
-                   <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                     Add Widget
-                   </h3>
-                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                     Connect to a finance API and create a custom widget
-                   </p>
-                 </div>
-               </div>
-             </SortableContext>
-            
-            <DragOverlay>
-              {activeWidget ? (
-                <div className="opacity-50">
-                  <SortableWidget
-                    widget={activeWidget}
-                    onRefresh={handleRefreshWidget}
-                    onConfigure={handleConfigureWidget}
-                    onDelete={handleDeleteWidget}
-                    onEdit={handleEditWidget}
-                    onClick={handleWidgetClick}
-                  />
-                </div>
-              ) : null}
-            </DragOverlay>
-          </DndContext>
+  <SortableContext
+    items={widgets.map((w) => w.id)}
+    strategy={verticalListSortingStrategy}
+  >
+    <div
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 
+                 gap-6 auto-rows-fr items-stretch"
+    >
+      {widgets.map((widget) => (
+        <div
+          key={widget.id}
+          className="flex flex-col rounded-lg transition hover:shadow-lg hover:shadow-green-500/50 h-full"
+        >
+          <SortableWidget
+            widget={widget}
+            onRefresh={handleRefreshWidget}
+            onConfigure={handleConfigureWidget}
+            onDelete={handleDeleteWidget}
+            onEdit={handleEditWidget}
+            onClick={handleWidgetClick}
+          />
+        </div>
+      ))}
+
+      {/* Add Widget Placeholder */}
+      <div
+        className="h-full flex flex-col justify-center border-2 border-dashed 
+                   border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center 
+                   hover:border-green-500 dark:hover:border-green-400 
+                   hover:shadow-lg hover:shadow-green-500/50 
+                   transition-all duration-200 cursor-pointer 
+                   hover:bg-gray-50 dark:hover:bg-gray-800/50"
+        onClick={() => setIsAddModalOpen(true)}
+      >
+        <div className="bg-gray-100 dark:bg-gray-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+          <Plus className="h-8 w-8 text-gray-400" />
+        </div>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+          Add Widget
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Connect to a finance API and create a custom widget
+        </p>
+      </div>
+    </div>
+  </SortableContext>
+
+  {/* Drag overlay must stay inside DndContext */}
+  <DragOverlay>
+    {activeWidget ? (
+      <div className="opacity-50">
+        <SortableWidget
+          widget={activeWidget}
+          onRefresh={handleRefreshWidget}
+          onConfigure={handleConfigureWidget}
+          onDelete={handleDeleteWidget}
+          onEdit={handleEditWidget}
+          onClick={handleWidgetClick}
+        />
+      </div>
+    ) : null}
+  </DragOverlay>
+</DndContext>
         )}
       </main>
 
       {/* Footer */}
       {widgets.length > 0 && (
-        <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+        <footer className="mt-16 shadow-inner" style={{ background: 'var(--card)', borderTop: '1px solid var(--border)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm font-medium" style={{ color: 'var(--muted-foreground)' }}>
                 FinBoard Dashboard • {widgets.length} widget{widgets.length !== 1 ? 's' : ''} active
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm font-medium" style={{ color: 'var(--muted-foreground)' }}>
                 Last updated: {new Date().toLocaleTimeString()}
               </div>
             </div>
