@@ -28,7 +28,17 @@ A customizable finance dashboard built with Next.js that allows users to connect
 - **Rate Limiting**: Graceful handling of API rate limits
 - **Type Safety**: Full TypeScript support
 
-### ScreenShot
+## 🛠️ How It Works
+
+1. **Add a Widget**: Click "+ Add Widget", enter an API URL, test the connection, and select fields to display.
+2. **Choose Display**: Pick Card, Table, or Chart view. Configure refresh interval and formatting.
+3. **Drag & Drop**: Rearrange widgets by dragging the handle in the corner of each card.
+4. **Configure or Delete**: Use the settings or trash icons to update or remove widgets anytime.
+5. **Theme & Export**: Switch between dark/light mode, export/import your dashboard, or load templates.
+
+---
+
+## 📸 Screenshots & Diagrams
 
 **#Flow Charts**
 
@@ -190,6 +200,33 @@ The application includes comprehensive error handling:
 - Invalid data formats
 - Network timeouts
 - User-friendly error messages
+
+---
+
+## 📱 Mobile Experience
+
+FinBoard is designed mobile-first. All features, including drag-and-drop, widget configuration, and theming, work seamlessly on phones and tablets. The UI adapts for touch, and all controls remain accessible.
+
+---
+
+## ❓ FAQ
+
+**Q: Can I use any API?**
+A: Yes! As long as it returns JSON and is CORS-accessible, you can connect it.
+
+**Q: Is my data private?**
+A: All configuration and data stay in your browser. Nothing is sent to a backend.
+
+**Q: Can I export/import my dashboard?**
+A: Yes, use the export/import buttons in the header.
+
+**Q: How do I reorder widgets?**
+A: Drag the handle (bottom-right of each widget) to move them.
+
+**Q: Does it work on mobile?**
+A: Yes, the dashboard is fully responsive and touch-friendly.
+
+---
 
 ## Contributing
 
