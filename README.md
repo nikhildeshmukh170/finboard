@@ -1,7 +1,24 @@
 # FinBoard - Finance Dashboard
 
-A customizable finance dashboard built with Next.js that allows users to connect to various financial APIs and display real-time data through customizable widgets.
+<p align="center">
+	<img width="225" height="225" alt="Finboard logo" src="https://github.com/user-attachments/assets/67334454-92f8-4e16-b3e5-d90b011fa01a" />
+</p>
+<p align="center">
+	<b>Customizable, real-time finance dashboard for all your data needs</b><br/>
+</p>
 
+<p align="center">
+	<img alt="Build" src="https://img.shields.io/badge/build-passing-brightgreen" />
+	<img alt="License" src="https://img.shields.io/badge/license-MIT-blue" />
+	<img alt="Next.js" src="https://img.shields.io/badge/Next.js-15-blue" />
+	<img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-blue" />
+	<img alt="Tailwind" src="https://img.shields.io/badge/TailwindCSS-4-blue" />
+</p>
+
+---
+FinBoard is a modern, customizable finance dashboard built with Next.js, Zustand, and Tailwind CSS. Connect to any financial API and visualize real-time data with beautiful, responsive widgets. Drag, drop, and configure your dashboard to fit your workflow—on desktop or mobile.
+
+---
 ## Features
 
 ### 🎯 Core Features
